@@ -33,6 +33,12 @@
       </v-col>
     </v-row>
 
+    <v-row no-gutters v-if="credibility == 1 || credibility == 3">
+      <tag-selector :accuracy=credibility>
+        </tag-selector>
+
+    </v-row>
+
     <v-row no-gutters class="pt-3">
       <v-col cols="12">
         <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? accuracyRules.bodyRules : []"
@@ -51,6 +57,10 @@
         </validation-provider>
 
       </v-col>
+    </v-row>
+
+    <v-row no-gutters v-if="credibility == 1 || credibility == 3" class="caption orange--text">
+      Make sure you provide justification for each tag selected!
     </v-row>
 
     <v-row no-gutters v-if="credibility == 2">
@@ -103,13 +113,16 @@
 
 <script>
 import sourceSelector from '@/components/SourceSelector'
+import tagSelector from '@/components/TagSelector'
 import consts from '@/services/constants'
 import { ValidationProvider } from 'vee-validate';
 import { mapGetters } from 'vuex'
+import TagSelector from './TagSelector.vue';
 
 export default {
   components: {
     'source-selector': sourceSelector,
+    'tag-selector': tagSelector,
     ValidationProvider
   },
   props: [
