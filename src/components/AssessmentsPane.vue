@@ -42,6 +42,26 @@
                <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
              </div>
            </v-card-title>
+
+            <v-col cols="6">
+              <v-card outlined :color="yesSelected ? 'lime lighten-3' : 'white'" @click="selectYes">
+                <v-row justify="center" no-gutters>
+                  <p class="pb-0 mb-0 subheading font-weight-medium">Yes</p>
+                </v-row>
+              </v-card>
+            </v-col>
+
+            <v-col cols="6">
+              <v-card outlined :color="!yesSelected ? 'lime lighten-3' : 'white'" @click="selectNo">
+                <v-row justify="center" no-gutters>
+                  <p class="pb-0 mb-0 subheading font-weight-medium">No</p>
+                </v-row>
+              </v-card>
+            </v-col>
+
+
+
+
            <v-divider></v-divider>
 
             <template v-for="assessment in getAssessmentsSlice(key)" >
@@ -89,7 +109,8 @@ export default {
   },
   data() {
     return {
-      revealedSize: {}
+      revealedSize: {},
+      yesSelectd: false
     }
   },
   computed: {
@@ -128,6 +149,12 @@ export default {
     },
     assessmentsRemaining: function(key) {
       return this.getAssessmentsSlice(key).length < this.sortedAssessments[key].length;
+    },
+    selectYes: function(key) {
+      this.yesSelected = true;
+    },
+    selectNo: function(key) {
+      this.yesSelected = false;
     }
   },
   watch: {
