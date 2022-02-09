@@ -30,39 +30,77 @@
       <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
     </v-row>
 
+    <v-card height="10px">
+      <v-divider></v-divider>
+    </v-card>
+
     <v-row no-gutters>
-      <template v-for="(key, index) in ['confirmed', 'refuted']" >
+      <v-col cols="6">
+        <v-card outlined :color="yesSelected ? 'lime lighten-3' : 'white'" @click="selectYes">
+          <v-row justify="center" no-gutters>
+            <p class="pb-0 mb-0 subheading font-weight-medium">Yes</p>
+          </v-row>
+        </v-card>
+      </v-col>
+
+      <v-col cols="6">
+        <v-card outlined :color="!yesSelected ? 'lime lighten-3' : 'white'" @click="selectNo">
+          <v-row justify="center" no-gutters>
+            <p class="pb-0 mb-0 subheading font-weight-medium">No</p>
+          </v-row>
+        </v-card>
+      </v-col>
+
+      <template class="container" v-if="yesSelected">
+                <div class="icons">
+
+          <div @click="setColYes(1)"><v-img class="images" src="../../public/images/graduation-cap.png" :style="{ backgroundColor: this.filteredYes[1] }"> </v-img></div>
+          <div @click="setColYes(2)"><v-img class="images" src="../../public/images/shared-vision.png" :style="{ backgroundColor: this.filteredYes[2] }"> </v-img></div>
+          <div @click="setColYes(3)"><v-img class="images" src="../../public/images/people.png" :style="{ backgroundColor: this.filteredYes[3] }"> </v-img></div>
+          <div @click="setColYes(4)"><v-img class="images" src="../../public/images/shield.png" :style="{ backgroundColor: this.filteredYes[4] }"> </v-img></div>
+          <div @click="setColYes(5)"><v-img class="images" src="../../public/images/fingerprint.png" :style="{ backgroundColor: this.filteredYes[5] }"> </v-img></div>
+          <div @click="setColYes(6)"><v-img class="images" src="../../public/images/fast-time.png" :style="{ backgroundColor: this.filteredYes[6] }"> </v-img></div>
+          <div @click="setColYes(7)"><v-img class="images" src="../../public/images/christmas-star.png" :style="{ backgroundColor: this.filteredYes[7] }"> </v-img></div>
+          <div @click="setColYes(8)"><v-img class="images" src="../../public/images/question (1).png" :style="{ backgroundColor: this.filteredYes[8] }"> </v-img></div>
+          <div @click="setColYes(9)"><v-img class="images" src="../../public/images/other.png" :style="{ backgroundColor: this.filteredYes[9] }"> </v-img></div>
+        </div>
+        <!-- <div class="icons" v-for='index in 10' :key='index'>
+          <v-img class="images" src="../../public/images/ear.png" width=25 height=25> </v-img>
+        </div> -->
+
+      </template>
+
+      <template v-if="!yesSelected">
+        <div class="icons">
+          <div @click="setCol(1)"><v-img class="images-no" src="../../public/images/graduation-cap.png" :style="{ backgroundColor: this.filtered[1] }"> </v-img></div>
+          <div @click="setCol(2)"><v-img class="images-no" src="../../public/images/shared-vision.png" :style="{ backgroundColor: this.filtered[2] }"> </v-img></div>
+          <div @click="setCol(3)"><v-img class="images-no" src="../../public/images/shield (2).png" :style="{ backgroundColor: this.filtered[3] }"> </v-img></div>
+          <div @click="setCol(4)"><v-img class="images-no" src="../../public/images/fast-time.png" :style="{ backgroundColor: this.filtered[4] }"> </v-img></div>
+          <div @click="setCol(5)"><v-img class="images-no" src="../../public/images/ear.png" :style="{ backgroundColor: this.filtered[5] }"> </v-img></div>
+          <div @click="setCol(6)"><v-img class="images-no" src="../../public/images/mess.png" :style="{ backgroundColor: this.filtered[6] }"> </v-img></div>
+          <div @click="setCol(7)"><v-img class="images-no" src="../../public/images/demon.png" :style="{ backgroundColor: this.filtered[7] }"> </v-img></div>
+          <div @click="setCol(8)"><v-img class="images-no" src="../../public/images/impossible-triangle.png" :style="{ backgroundColor: this.filtered[8] }"> </v-img></div>
+          <div @click="setCol(9)"><v-img class="images-no" src="../../public/images/christmas-star.png" :style="{ backgroundColor: this.filtered[9] }"> </v-img></div>
+          <div @click="setCol(10)"><v-img class="images-no" src="../../public/images/question (1).png" :style="{ backgroundColor: this.filtered[10] }"> </v-img></div>
+          <div @click="setCol(11)"><v-img class="images-no" src="../../public/images/other.png" :style="{ backgroundColor: this.filtered[11] }"> </v-img></div>
+        </div>
+
+      </template>
+
+      <!-- <template v-for="(key, index) in ['confirmed', 'refuted']" >
         <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
-          <v-card class="assessment-col" outlined>
+          <v-card class="assessment-col" outlined> -->
 
-            <v-card-title>
+
+            <!-- <v-card-title>
              <div>
                <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
                <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
              </div>
-           </v-card-title>
+           </v-card-title> -->
 
-            <v-col cols="6">
-              <v-card outlined :color="yesSelected ? 'lime lighten-3' : 'white'" @click="selectYes">
-                <v-row justify="center" no-gutters>
-                  <p class="pb-0 mb-0 subheading font-weight-medium">Yes</p>
-                </v-row>
-              </v-card>
-            </v-col>
-
-            <v-col cols="6">
-              <v-card outlined :color="!yesSelected ? 'lime lighten-3' : 'white'" @click="selectNo">
-                <v-row justify="center" no-gutters>
-                  <p class="pb-0 mb-0 subheading font-weight-medium">No</p>
-                </v-row>
-              </v-card>
-            </v-col>
-
-
-
-
-           <v-divider></v-divider>
+           <!-- <v-divider></v-divider>
 
             <template v-for="assessment in getAssessmentsSlice(key)" >
               <inner-assessment :assessmentObj="assessment" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"
@@ -76,12 +114,13 @@
                 Show More Assessments</span>
               <v-spacer></v-spacer>
               <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
-            </v-row>
+            </v-row> -->
 
-         </v-card>
+         <!-- </v-card>
 
         </v-col>
-      </template>
+      </template> -->
+
     </v-row>
 
   </div>
@@ -92,6 +131,7 @@
 import innerAssessment from '@/components/InnerAssessment'
 import utils from '@/services/utils'
 import { mapState, mapActions } from 'vuex'
+import Vue from 'vue'
 
 export default {
   components: {
@@ -110,7 +150,10 @@ export default {
   data() {
     return {
       revealedSize: {},
-      yesSelectd: false
+      yesSelected: false,
+      filtered: ['red','red','red','red','red','red','red','red','red','red','red','red','red','red'],
+      filteredYes: ['green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+      // noPics: ['ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear', 'ear']
     }
   },
   computed: {
@@ -155,7 +198,17 @@ export default {
     },
     selectNo: function(key) {
       this.yesSelected = false;
-    }
+    },
+    setCol: function(key) {
+      if (this.filtered[key] === 'red') {
+        Vue.set(this.filtered, key, 'gray');}
+      else {Vue.set(this.filtered, key, 'red');}
+    },
+    setColYes: function(key) {
+      if (this.filteredYes[key] === 'green') {
+        Vue.set(this.filteredYes, key, 'gray');}
+      else {Vue.set(this.filteredYes, key, 'green');}
+    },
   },
   watch: {
     assessments: function() {
@@ -187,8 +240,8 @@ export default {
 
 .assessment-col {
   overflow-y: scroll;
-  max-height: 90vh;
-  min-height: 90vh;
+  max-height: 80vh;
+  min-height: 80vh;
 }
 
 .assessment-col:first-child {
@@ -197,6 +250,31 @@ export default {
 
 .clear-sign {
   position: absolute;
+}
+
+.icons {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin: 20px;
+  display:flex;
+  justify-content: space-between;
+}
+
+.images {
+  text-align: center;
+  border-radius: 50%;
+  background-color: green;
+  margin-right: 15px;
+  width: 40px;
+}
+
+.images-no {
+  text-align: center;
+  border-radius: 50%;
+  /* background-color: red; */
+  margin-right: 10px;
+  width: 40px;
 }
 
 </style>
