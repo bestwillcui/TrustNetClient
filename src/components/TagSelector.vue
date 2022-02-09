@@ -4,7 +4,7 @@
 <template>
 
   <v-autocomplete v-model="targets" :items="populationList" dense
-  filled small-chips color="blue-grey lighten-2" :filter="filterFollowersLists"
+  filled small-chips color="blue-grey lighten-2"
   item-text="text" item-value="value" multiple :no-data-text="textWhenNoData">
 
     <template v-slot:label>
@@ -19,10 +19,10 @@
         @click:close="remove(data.item)" >
 
         <template>
-          <v-avatar left v-if="data.item.value.type === 'Source'">
-            <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false" :size="25"></custom-avatar>
+          <v-avatar left v-if="data.item.value.type === 'Tag'">
+            <img src="data.item.value.address"/>
           </v-avatar>
-          <span class="caption">{{ data.item.text }}</span>
+          <span class="caption">{{ data.item.text }} </span>
         </template>
 
       </v-chip>
@@ -36,9 +36,8 @@
 
       <template v-else>
 
-        <v-list-item-avatar v-if="data.item.value.type === 'Source'" class="custom-list-avatar my-1">
-          <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false"
-          :size="30"></custom-avatar>
+        <v-list-item-avatar v-if="data.item.value.type === 'Tag'" class="custom-list-avatar my-1">
+            <img src="data.item.value.address"/>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title v-html="data.item.text"></v-list-item-title>
@@ -52,20 +51,18 @@
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
 import { mapState, mapActions } from 'vuex';
 import sourceHelpers from '@/mixins/sourceHelpers'
 
 export default {
   components: {
-    'custom-avatar': customAvatar
   },
   props: {
     population: {
       type: String
     },
     accuracy: {
-      type: Boolean
+      type: Number
     }
   },
   data () {
@@ -92,50 +89,50 @@ export default {
       let data = [];
       if (this.accuracy == 3) {
         data.push({ header: 'Accurate on the evidence' });
-        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "1"}});
-        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "2"}});
-        data.push({text: "My other trusted sources confirm the entire claim.", value: {type: "Tag", identifier: "3"}});
-        data.push({text: "The claim is from a source I trust.", value: {type: "Tag", identifier: "4"}});
-        data.push({text: "Evidence presented in the article corroborates the claim.", value: {type: "Tag", identifier: "5"}});
+        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "1", address: "../../public/images/other.png"}});
+        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "2", address: "../../public/images/other.png"}});
+        data.push({text: "My other trusted sources confirm the entire claim.", value: {type: "Tag", identifier: "3", address: "../../public/images/other.png"}});
+        data.push({text: "The claim is from a source I trust.", value: {type: "Tag", identifier: "4", address: "../../public/images/other.png"}});
+        data.push({text: "Evidence presented in the article corroborates the claim.", value: {type: "Tag", identifier: "5", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Plausible' });
-        data.push({text: "The claim is consistent with my past experience and observations.", value: {type: "Tag", identifier: "6"}});
+        data.push({text: "The claim is consistent with my past experience and observations.", value: {type: "Tag", identifier: "6", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Don\'t know' });
 
-        data.push({text: "I'm not sure, but I want the claim to be true.", value: {type: "Tag", identifier: "7"}});
-        data.push({text: "I was just guessing.", value: {type: "Tag", identifier: "8"}});
+        data.push({text: "I'm not sure, but I want the claim to be true.", value: {type: "Tag", identifier: "7", address: "../../public/images/other.png"}});
+        data.push({text: "I was just guessing.", value: {type: "Tag", identifier: "8", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Other' });
-        data.push({text: "Other", value: {type: "Tag", identifier: "9"}});
+        data.push({text: "Other", value: {type: "Tag", identifier: "9", address: "../../public/images/other.png"}});
       }
 
       else {
         data.push({ header: 'Inaccurate by contrary knowledge' });
-        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "-1"}});
-        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "-2"}});
-        data.push({text: "The claim contradicts some information related to the case that I know from trusted sources.", value: {type: "Tag", identifier: "-3"}});
+        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "-1", address: "../../public/images/other.png"}});
+        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "-2", address: "../../public/images/other.png"}});
+        data.push({text: "The claim contradicts some information related to the case that I know from trusted sources.", value: {type: "Tag", identifier: "-3", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Implausible' });
-        data.push({text: "The claim is not consistent with my past experience and observations.", value: {type: "Tag", identifier: "-4"}});
-        data.push({text: "If this were true, I would have heard about it.", value: {type: "Tag", identifier: "-5"}});
-        data.push({text: "The claim appears to be inaccurate based on its presentation.", value: {type: "Tag", identifier: "-6"}});
-        data.push({text: "The claim appears motivated or biased.", value: {type: "Tag", identifier: "-7"}});
-        data.push({text: "The claim references something that is impossible to prove.", value: {type: "Tag", identifier: "-8"}});
+        data.push({text: "The claim is not consistent with my past experience and observations.", value: {type: "Tag", identifier: "-4", address: "../../public/images/other.png"}});
+        data.push({text: "If this were true, I would have heard about it.", value: {type: "Tag", identifier: "-5", address: "../../public/images/other.png"}});
+        data.push({text: "The claim appears to be inaccurate based on its presentation.", value: {type: "Tag", identifier: "-6", address: "../../public/images/other.png"}});
+        data.push({text: "The claim appears motivated or biased.", value: {type: "Tag", identifier: "-7", address: "../../public/images/other.png"}});
+        data.push({text: "The claim references something that is impossible to prove.", value: {type: "Tag", identifier: "-8", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Don\'t know' });
 
-        data.push({text: "I'm not sure, but I do not want the claim to be true.", value: {type: "Tag", identifier: "-9"}});
-        data.push({text: "I was just guessing.", value: {type: "Tag", identifier: "-10"}});
+        data.push({text: "I'm not sure, but I do not want the claim to be true.", value: {type: "Tag", identifier: "-9", address: "../../public/images/other.png"}});
+        data.push({text: "I was just guessing.", value: {type: "Tag", identifier: "-10", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
         data.push({ header: 'Other' });
-        data.push({text: "Other", value: {type: "Tag", identifier: "-11"}});      }
+        data.push({text: "Other", value: {type: "Tag", identifier: "-11", address: "../../public/images/other.png"}});      }
 
       return data;
     },
