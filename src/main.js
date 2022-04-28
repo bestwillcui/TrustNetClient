@@ -12,6 +12,13 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import vuetify from './plugins/vuetify';
 import consts from './services/constants'
 import Clipboard from 'v-clipboard'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faGraduationCap)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
  
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;

@@ -20,7 +20,7 @@
 
         <template>
           <v-avatar left v-if="data.item.value.type === 'Tag'">
-            <img src="data.item.value.address"/>
+            <img v-bind:src="data.item.value.address"/>
           </v-avatar>
           <span class="caption">{{ data.item.text }} </span>
         </template>
@@ -33,15 +33,18 @@
       <template v-if="typeof data.item !== 'object'">
         <v-list-item-content v-text="data.item"></v-list-item-content>
       </template>
+      
 
       <template v-else>
+        <div class="selection">
 
         <v-list-item-avatar v-if="data.item.value.type === 'Tag'" class="custom-list-avatar my-1">
-            <img src="data.item.value.address"/>
+            <img v-bind:src="data.item.value.address"/>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title v-html="data.item.text"></v-list-item-title>
         </v-list-item-content>
+        </div>
       </template>
 
     </template>
@@ -89,8 +92,8 @@ export default {
       let data = [];
       if (this.accuracy == 3) {
         data.push({ header: 'Accurate on the evidence' });
-        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "1", address: "../../public/images/other.png"}});
-        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "2", address: "../../public/images/other.png"}});
+        data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "1", address: "../../public/images/people.png"}});
+        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "2", address: "../../public/images/people.png"}});
         data.push({text: "My other trusted sources confirm the entire claim.", value: {type: "Tag", identifier: "3", address: "../../public/images/other.png"}});
         data.push({text: "The claim is from a source I trust.", value: {type: "Tag", identifier: "4", address: "../../public/images/other.png"}});
         data.push({text: "Evidence presented in the article corroborates the claim.", value: {type: "Tag", identifier: "5", address: "../../public/images/other.png"}});
@@ -113,7 +116,7 @@ export default {
       else {
         data.push({ header: 'Inaccurate by contrary knowledge' });
         data.push({text: "I have a high degree of knowledge on this topic that allows me to assess this claim myself.", value: {type: "Tag", identifier: "-1", address: "../../public/images/other.png"}});
-        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "-2", address: "../../public/images/other.png"}});
+        data.push({text: "I have firsthand knowledge of the subject or am an eyewitness.", value: {type: "Tag", identifier: "-2", address: "other.png"}});
         data.push({text: "The claim contradicts some information related to the case that I know from trusted sources.", value: {type: "Tag", identifier: "-3", address: "../../public/images/other.png"}});
 
         data.push({ divider: true });
@@ -140,7 +143,7 @@ export default {
         return 'No tags found';
     },
     audienceLabel: function() {
-      return 'Select all valid tags'
+      return 'Select all valid reasons'
     },
     ...mapState('relatedSources', [
      'followers',
@@ -173,5 +176,10 @@ export default {
 .prompt-text {
   font-size: 0.7em !important;
   margin-top: 10%;
+}
+
+.selection {
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 </style>

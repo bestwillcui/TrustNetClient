@@ -54,8 +54,14 @@
       <template class="container" v-if="yesSelected">
                 <div class="icons">
 
+          <v-tooltip bottom>
           <div @click="setColYes(1)"><v-img class="images" src="../../public/images/graduation-cap.png" :style="{ backgroundColor: this.filteredYes[1] }"> </v-img></div>
-          <div @click="setColYes(2)"><v-img class="images" src="../../public/images/shared-vision.png" :style="{ backgroundColor: this.filteredYes[2] }"> </v-img></div>
+          <span> blah blah </span>
+          </v-tooltip>
+
+          <div @click="setColYes(2)"><font-awesome-icon class="images" icon="fa-solid fa-graduation-cap" size='xl' :style="{ backgroundColor: this.filteredYes[2] }"/></div>
+
+          <!-- <div @click="setColYes(2)"><v-img class="images" src="../../public/images/shared-vision.png" :style="{ backgroundColor: this.filteredYes[2] }"> </v-img></div> -->
           <div @click="setColYes(3)"><v-img class="images" src="../../public/images/people.png" :style="{ backgroundColor: this.filteredYes[3] }"> </v-img></div>
           <div @click="setColYes(4)"><v-img class="images" src="../../public/images/shield.png" :style="{ backgroundColor: this.filteredYes[4] }"> </v-img></div>
           <div @click="setColYes(5)"><v-img class="images" src="../../public/images/fingerprint.png" :style="{ backgroundColor: this.filteredYes[5] }"> </v-img></div>
@@ -68,11 +74,36 @@
           <v-img class="images" src="../../public/images/ear.png" width=25 height=25> </v-img>
         </div> -->
 
+        <div class="assess">
+
+        <template v-for="assessment in getAssessmentsSlice('confirmed')" >
+          <inner-assessment :assessmentObj="assessment" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"
+          :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
+          <v-divider :key="`divider-${assessment.lastVersion.id}`" class="center-align"></v-divider>
+        </template>
+
+        <v-row no-gutters class="pa-1">
+          <span v-if="assessmentsRemaining('confirmed')" @click="revealMore('confirmed')"
+            class="blue--text text--darken-3 body-2 interactable">
+            Show More Assessments</span>
+          <v-spacer></v-spacer>
+          <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats('confirmed')}} </span>
+        </v-row>
+
+        </div>
+        
+
       </template>
 
       <template v-if="!yesSelected">
         <div class="icons">
-          <div @click="setCol(1)"><v-img class="images-no" src="../../public/images/graduation-cap.png" :style="{ backgroundColor: this.filtered[1] }"> </v-img></div>
+
+          <v-tooltip bottom>
+                  <div v-bind="on" @click="setCol(1)"><v-img class="images-no" src="../../public/images/graduation-cap.png" :style="{ backgroundColor: this.filtered[1] }"> </v-img></div>
+              </v-tooltip>
+
+              <font-awesome-icon icon="fa-solid fa-graduation-cap" />
+
           <div @click="setCol(2)"><v-img class="images-no" src="../../public/images/shared-vision.png" :style="{ backgroundColor: this.filtered[2] }"> </v-img></div>
           <div @click="setCol(3)"><v-img class="images-no" src="../../public/images/shield (2).png" :style="{ backgroundColor: this.filtered[3] }"> </v-img></div>
           <div @click="setCol(4)"><v-img class="images-no" src="../../public/images/fast-time.png" :style="{ backgroundColor: this.filtered[4] }"> </v-img></div>
@@ -83,6 +114,24 @@
           <div @click="setCol(9)"><v-img class="images-no" src="../../public/images/christmas-star.png" :style="{ backgroundColor: this.filtered[9] }"> </v-img></div>
           <div @click="setCol(10)"><v-img class="images-no" src="../../public/images/question (1).png" :style="{ backgroundColor: this.filtered[10] }"> </v-img></div>
           <div @click="setCol(11)"><v-img class="images-no" src="../../public/images/other.png" :style="{ backgroundColor: this.filtered[11] }"> </v-img></div>
+        </div>
+
+        <div class='assess'>
+
+        <template v-for="assessment in getAssessmentsSlice('refuted')" >
+              <inner-assessment :assessmentObj="assessment" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"
+              :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
+              <v-divider :key="`divider-${assessment.lastVersion.id}`" class="center-align"></v-divider>
+            </template>
+
+            <v-row no-gutters class="pa-1">
+              <span v-if="assessmentsRemaining('refuted')" @click="revealMore('refuted')"
+                class="blue--text text--darken-3 body-2 interactable">
+                Show More Assessments</span>
+              <v-spacer></v-spacer>
+              <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats('refuted')}} </span>
+            </v-row>
+
         </div>
 
       </template>
@@ -275,6 +324,10 @@ export default {
   /* background-color: red; */
   margin-right: 10px;
   width: 40px;
+}
+
+.assess {
+  padding-top: 100px;
 }
 
 </style>
